@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    public Animator animator;
+
     RaycastHit hit;
 
     private static PlayerMovement _instance;
@@ -62,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
         float xMove = Input.GetAxisRaw("Horizontal");
         float move = xMove * moveSpeed * Time.deltaTime;
 
+        animator.SetFloat("Speed", Mathf.Abs(xMove));
+
         if(Input.GetKeyDown(KeyCode.D) && !facingRight)
         {
             Flip();
@@ -74,9 +78,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+            Debug.Log("OLA");
+            animator.SetBool("isJumping", true);
+        }
 
         rb.velocity = new Vector2(move, rb.velocity.y);
+    }
+
+    public void OnLand()
+    {
+        animator.SetBool("IsJumping", false);
     }
 
     void Flip()
@@ -91,8 +104,9 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
+        {
             died = true;
-
+        }
     }
 
 }

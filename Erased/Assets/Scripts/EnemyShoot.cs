@@ -6,7 +6,7 @@ public class EnemyShoot : MonoBehaviour
 {
     [SerializeField]
     private GameObject Enemybullet;
-    private float reloadTime = 2f;
+    private float reloadTime = 0.1f;
 
     // Update is called once per frame
     void Update()
